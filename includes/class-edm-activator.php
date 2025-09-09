@@ -24,14 +24,16 @@ class EDM_Activator {
      *
      * A management table `edm_uploads` is created to track uploaded files
      * and the name of the dynamic table that holds its data.
+     * A configuration table `edm_file_config` is created to store file settings.
      */
     private static function create_tables() {
         global $wpdb;
         $charset_collate = $wpdb->get_charset_collate();
-        $table_name = $wpdb->prefix . 'edm_uploads';
+        $uploads_table = $wpdb->prefix . 'edm_uploads';
+        $config_table = $wpdb->prefix . 'edm_file_config';
 
         // SQL to create the main management table
-        $sql = "CREATE TABLE $table_name (
+        $sql_uploads = "CREATE TABLE $uploads_table (
             id mediumint(9) NOT NULL AUTO_INCREMENT,
             original_filename varchar(255) NOT NULL,
             stored_filename varchar(255) NOT NULL,
@@ -41,8 +43,22 @@ class EDM_Activator {
             PRIMARY KEY  (id)
         ) $charset_collate;";
 
+        // SQL to create the file configuration table
+        $sql_config = "CREATE TABLE $config_table (
+            id mediumint(9) NOT NULL AUTO_INCREMENT,
+            file_id mediumint(9) NOT NULL,
+            header_row tinyint(1) DEFAULT 1,
+            visible_columns text,
+            created_at datetime DEFAULT CURRENT_TIMESTAMP,
+            updated_at datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            PRIMARY KEY  (id),
+            UNIQUE KEY file_id (file_id),
+            CONSTRAINT fk_file_config FOREIGN KEY (file_id) REFERENCES $uploads_table(id) ON DELETE CASCADE
+        ) $charset_collate;";
+
         require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-        dbDelta( $sql );
+        dbDelta( $sql_uploads );
+        dbDelta( $sql_config );
     }
 
     /**

@@ -412,4 +412,109 @@ class EDM_Admin {
             wp_send_json_error( 'Error processing file: ' . $e->getMessage() );
         }
     }
+
+    /**
+     * Handle AJAX: save file configuration.
+     */
+    public function handle_save_file_config() {
+        check_ajax_referer( 'edm_save_config_nonce', 'security' );
+
+        if ( ! current_user_can( 'manage_excel_data' ) ) {
+            wp_send_json_error( 'You do not have permission to configure files.' );
+        }
+
+        $file_id = isset( $_POST['file_id'] ) ? intval( $_POST['file_id'] ) : 0;
+        $header_row = isset( $_POST['header_row'] ) ? intval( $_POST['header_row'] ) : 1;
+        $visible_columns = isset( $_POST['visible_columns'] ) ? sanitize_text_field( $_POST['visible_columns'] ) : '';
+
+        if ( $file_id <= 0 ) {
+            wp_send_json_error( 'Invalid file ID.' );
+        }
+
+        global $wpdb;
+        $config_table = $wpdb->prefix . 'edm_file_config';
+        $uploads_table = $wpdb->prefix . 'edm_uploads';
+
+        // Check if file exists
+        $file_exists = $wpdb->get_var( $wpdb->prepare(
+            "SELECT id FROM $uploads_table WHERE id = %d",
+            $file_id
+        ) );
+
+        if ( ! $file_exists ) {
+            wp_send_json_error( 'File not found.' );
+        }
+
+        // Check if config already exists
+        $config_exists = $wpdb->get_var( $wpdb->prepare(
+            "SELECT id FROM $config_table WHERE file_id = %d",
+            $file_id
+        ) );
+
+        if ( $config_exists ) {
+            // Update existing config
+            $updated = $wpdb->update(
+                $config_table,
+                array(
+                    'header_row' => $header_row,
+                    'visible_columns' => $visible_columns
+                ),
+                array( 'file_id' => $file_id ),
+                array( '%d', '%s' ),
+                array( '%d' )
+            );
+        } else {
+            // Insert new config
+            $updated = $wpdb->insert(
+                $config_table,
+                array(
+                    'file_id' => $file_id,
+                    'header_row' => $header_row,
+                    'visible_columns' => $visible_columns
+                ),
+                array( '%d', '%d', '%s' )
+            );
+        }
+
+        if ( false === $updated ) {
+            wp_send_json_error( 'Failed to save configuration.' );
+        }
+
+        wp_send_json_success( 'Configuration saved successfully.' );
+    }
+
+    /**
+     * Handle AJAX: get file configuration.
+     */
+    public function handle_get_file_config() {
+        check_ajax_referer( 'edm_get_config_nonce', 'security' );
+
+        if ( ! current_user_can( 'manage_excel_data' ) ) {
+            wp_send_json_error( 'You do not have permission to view file configuration.' );
+        }
+
+        $file_id = isset( $_POST['file_id'] ) ? intval( $_POST['file_id'] ) : 0;
+
+        if ( $file_id <= 0 ) {
+            wp_send_json_error( 'Invalid file ID.' );
+        }
+
+        global $wpdb;
+        $config_table = $wpdb->prefix . 'edm_file_config';
+
+        $config = $wpdb->get_row( $wpdb->prepare(
+            "SELECT header_row, visible_columns FROM $config_table WHERE file_id = %d",
+            $file_id
+        ) );
+
+        if ( ! $config ) {
+            // Return default values if no config exists
+            wp_send_json_success( array(
+                'header_row' => 1,
+                'visible_columns' => ''
+            ) );
+        }
+
+        wp_send_json_success( $config );
+    }
 }
