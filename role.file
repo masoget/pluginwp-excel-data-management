@@ -1,0 +1,85 @@
+Anda ingin membuat sebuah sistem manajemen data lengkap di dalam WordPress yang sumber datanya berasal dari file-file Excel.
+
+Konfirmasi Pemahaman
+
+Jika saya simpulkan, Anda ingin membangun sebuah plugin WordPress yang memiliki dua sisi utama:
+
+
+
+Sisi Backend (Dashboard Admin): Di sini, Anda sebagai admin bisa mengunggah dan mengelola file-file Excel. Anda juga bisa melihat, mengedit, menambah, dan menghapus data di dalam file-file tersebut langsung dari dashboard WordPress, serta melakukan konfigurasi seperti pengaturan header tabel.
+
+Sisi Frontend (Untuk Pengunjung Website): Menggunakan shortcode, Anda bisa menampilkan data dari file Excel tersebut di halaman mana pun. Fitur utamanya adalah menampilkan data dalam bentuk tabel, menyediakan fungsi pencarian untuk memfilter data, dan bahkan menyediakan formulir bagi pengunjung untuk menambahkan data baru ke dalam file Excel yang bersangkutan.
+
+Apakah pemahaman saya ini sudah benar?
+
+Penyusunan Ulang Kebutuhan Fitur
+
+Agar lebih terstruktur untuk perencanaan pengembangan, mari kita susun ulang daftar keinginan Anda menjadi sebuah "Project Brief" atau rangkuman kebutuhan yang rapi.
+
+Nama Proyek Plugin: Excel Data Manager & Frontend Display
+
+Tujuan Utama: Membuat plugin WordPress untuk mengimpor, mengelola, dan menampilkan data dari file Excel di halaman depan (frontend) website menggunakan shortcode yang interaktif.
+
+Fitur-Fitur Utama:
+
+1. Manajemen File Excel (di Dashboard Admin)
+
+
+
+Upload: Fitur untuk mengunggah file Excel (.xlsx, .xls, .csv).
+
+Daftar File: Halaman yang menampilkan semua file Excel yang telah diunggah.
+
+Aksi File: Untuk setiap file di dalam daftar, tersedia tombol untuk:
+
+Melihat/Mengelola Data.
+
+Menghapus file (secara individual).
+
+Aksi Massal (Bulk Actions): Kemampuan untuk memilih beberapa file dan menghapusnya sekaligus.
+
+2. Manajemen Data (di Dashboard Admin)
+
+
+
+Tampilan Data Interaktif: Saat sebuah file dipilih, data di dalamnya ditampilkan dalam format tabel (mirip spreadsheet).
+
+Operasi CRUD (Create, Read, Update, Delete):
+
+Create: Menambahkan baris data baru secara manual.
+
+Read: Melihat seluruh data.
+
+Update: Mengedit data pada sel atau baris tertentu.
+
+Delete: Menghapus satu atau beberapa baris data.
+
+Pengaturan Header:
+
+Otomatis: Opsi untuk secara otomatis menggunakan baris pertama pada file Excel sebagai header tabel.
+
+Manual: Opsi untuk menulis atau mengubah nama header kolom secara manual melalui halaman pengaturan plugin.
+
+3. Tampilan Frontend (menggunakan Shortcode)
+
+
+
+Shortcode untuk Menampilkan Tabel:
+
+[excel_display file_id="1"]
+
+Fungsi: Menampilkan seluruh data dari file Excel dengan ID 1 dalam sebuah tabel HTML di halaman.
+
+Shortcode untuk Tabel dengan Pencarian:
+
+[excel_search file_id="1"]
+
+Fungsi: Menampilkan tabel data yang sama, namun dengan tambahan sebuah form pencarian di atasnya. Ketika pengunjung mengetik dan mencari, tabel akan secara dinamis menampilkan hanya baris yang mengandung kata kunci tersebut.
+
+Shortcode untuk Form Input Data:
+
+[excel_form file_id="1"]
+
+Fungsi: Menampilkan sebuah formulir yang bisa diisi oleh pengunjung. Ketika disubmit, data dari formulir tersebut akan ditambahkan sebagai baris baru ke dalam file Excel dengan ID 1.
+
+Apakah rangkuman dan susunan fitur ini sudah sesuai dengan yang Anda bayangkan? Jika ya, kita bisa mulai membahas langkah selanjutnya, seperti arsitektur plugin atau teknologi yang dibutuhkan.

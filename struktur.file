@@ -1,0 +1,35 @@
+Struktur Folder Proyek: Excel Data Manager New DesignDokumen ini merinci struktur direktori dan file yang diusulkan untuk plugin WordPress "Excel Data Manager New Design" untuk memastikan pengembangan yang terorganisir, dapat dipelihara, dan sesuai dengan praktik terbaik.Visualisasi Struktur Folder/excel-data-manager/
+│
+├── admin/
+│   ├── css/
+│   │   └── edm-admin-styles.css
+│   ├── js/
+│   │   └── edm-admin-scripts.js
+│   └── partials/
+│       └── edm-admin-display.php
+│   └── class-edm-admin.php
+│
+├── public/
+│   ├── css/
+│   │   └── edm-public-styles.css
+│   ├── js/
+│   │   └── edm-public-scripts.js
+│   └── partials/
+│       └── edm-public-display.php
+│   └── class-edm-public.php
+│
+├── includes/
+│   ├── class-edm-main.php
+│   ├── class-edm-activator.php
+│   └── class-edm-deactivator.php
+│
+├── languages/
+│   └── excel-data-manager.pot
+│
+├── vendor/
+│   └── (Folder ini dikelola oleh Composer)
+│
+├── excel-data-manager.php  (File Plugin Utama)
+├── uninstall.php
+└── README.md
+Penjelasan Setiap Folder dan File/excel-data-manager/Ini adalah direktori root (utama) dari plugin Anda.admin/Berisi semua file yang spesifik untuk area admin (dashboard WordPress).css/: Untuk file stylesheet (CSS) halaman admin.js/: Untuk file JavaScript halaman admin.partials/: Berisi file-file template atau "view" untuk halaman admin, seperti formulir upload. Ini memisahkan logika dari tampilan.class-edm-admin.php: File class utama yang mengelola semua hook, filter, dan logika yang berjalan di sisi admin.public/Berisi semua file yang spesifik untuk tampilan frontend (yang dilihat oleh pengunjung website).css/, js/, partials/: Sama seperti folder admin, tetapi ini untuk sisi publik.class-edm-public.php: File class utama yang mengelola logika untuk shortcode dan tampilan data di halaman depan.includes/Berisi fungsionalitas inti dari plugin yang bersifat "global" atau digunakan oleh sisi admin dan publik.class-edm-main.php: Class utama yang mengorkestrasi seluruh plugin.class-edm-activator.php: Kode yang dijalankan hanya sekali saat plugin diaktifkan (misalnya, membuat tabel database).class-edm-deactivator.php: Kode yang dijalankan saat plugin dinonaktifkan.languages/Untuk file terjemahan (internasionalisasi). File .pot adalah template yang bisa digunakan untuk menerjemahkan plugin ke bahasa lain.vendor/Folder ini dibuat dan dikelola secara otomatis oleh Composer. Berisi semua pustaka pihak ketiga yang dibutuhkan oleh proyek, seperti phpoffice/phpspreadsheet.excel-data-manager.phpFile utama yang dikenali oleh WordPress sebagai plugin. Berisi header informasi plugin dan bertanggung jawab untuk memuat file-file inti lainnya.uninstall.phpSkrip yang dijalankan ketika pengguna menghapus (uninstall) plugin. Ini digunakan untuk membersihkan data dari database, seperti menghapus tabel kustom dan custom role yang sudah dibuat.README.mdFile dokumentasi yang menjelaskan fungsi plugin, cara instalasi, dan cara penggunaan.Struktur ini akan saya gunakan sebagai acuan untuk pengembangan proyek kita ke depan.

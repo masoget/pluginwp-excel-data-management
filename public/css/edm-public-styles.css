@@ -1,0 +1,225 @@
+/**
+ * All of the CSS for your public-facing functionality should be
+ * included in this file.
+ */
+
+:root {
+    --edm-primary: #667eea;
+    --edm-secondary: #764ba2;
+    --edm-success: #28a745;
+    --edm-danger: #dc3545;
+    --edm-warning: #ffc107;
+    --edm-info: #17a2b8;
+    --edm-light: #f8f9fa;
+    --edm-dark: #343a40;
+    --edm-gray: #6c757d;
+    --edm-gray-light: #e9ecef;
+    --edm-border: #dee2e6;
+    --edm-shadow: rgba(0, 0, 0, 0.1);
+}
+
+/* General Styles */
+.edm-public-container {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Table Styles */
+.edm-public-table-container {
+    margin: 20px 0;
+    overflow-x: auto;
+    box-shadow: 0 2px 8px var(--edm-shadow);
+    border-radius: 8px;
+}
+
+.edm-public-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.edm-public-table th {
+    background: linear-gradient(135deg, var(--edm-primary) 0%, var(--edm-secondary) 100%);
+    color: white;
+    padding: 15px 12px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.edm-public-table td {
+    padding: 12px;
+    border-bottom: 1px solid var(--edm-border);
+    font-size: 0.95rem;
+}
+
+.edm-public-table tr:hover {
+    background: var(--edm-light);
+}
+
+.edm-public-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* Search Styles */
+.edm-search-container {
+    margin: 20px 0;
+}
+
+.edm-search-box {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.edm-search-input {
+    flex: 1;
+    min-width: 250px;
+    padding: 12px 16px;
+    border: 2px solid var(--edm-border);
+    border-radius: 25px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.edm-search-input:focus {
+    outline: none;
+    border-color: var(--edm-primary);
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.edm-search-btn {
+    background: linear-gradient(135deg, var(--edm-primary) 0%, var(--edm-secondary) 100%);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.edm-search-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.edm-search-results {
+    position: relative;
+}
+
+.edm-loader {
+    text-align: center;
+    padding: 20px;
+}
+
+/* Form Styles */
+.edm-form-container {
+    background: var(--edm-light);
+    padding: 30px;
+    border-radius: 8px;
+    border: 1px solid var(--edm-border);
+    margin: 20px 0;
+}
+
+.edm-form-group {
+    margin-bottom: 20px;
+}
+
+.edm-form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--edm-dark);
+    font-size: 0.95rem;
+}
+
+.edm-form-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid var(--edm-border);
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.edm-form-input:focus {
+    outline: none;
+    border-color: var(--edm-primary);
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.edm-form-submit {
+    background: linear-gradient(135deg, var(--edm-success) 0%, #20c997 100%);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.edm-form-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+}
+
+.edm-form-message {
+    padding: 15px;
+    border-radius: 6px;
+    margin-top: 15px;
+}
+
+.edm-form-message.success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.edm-form-message.error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .edm-search-box {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .edm-search-input {
+        min-width: auto;
+    }
+    
+    .edm-public-table {
+        font-size: 0.85rem;
+    }
+    
+    .edm-public-table th,
+    .edm-public-table td {
+        padding: 8px;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.edm-fade-in {
+    animation: fadeIn 0.3s ease forwards;
+}
