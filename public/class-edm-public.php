@@ -96,6 +96,11 @@ class EDM_Public {
      * @return string HTML output
      */
     public function display_excel_data($atts) {
+        // Check if user has permission to view data
+        if (!$this->user_can_view_data()) {
+            return '<p>You do not have permission to view this data.</p>';
+        }
+
         $atts = shortcode_atts(array(
             'file_id' => '',
             'columns' => '',
@@ -103,7 +108,7 @@ class EDM_Public {
         ), $atts, 'excel_display');
 
         if (empty($atts['file_id'])) {
-            return '<p>Error: file_id is required.</p>';
+            return '<p>Error: file_id is required. Please specify a valid file ID, e.g., [excel_display file_id="1"].</p>';
         }
 
         global $wpdb;
@@ -201,12 +206,17 @@ class EDM_Public {
      * @return string HTML output
      */
     public function search_excel_data($atts) {
+        // Check if user has permission to view data
+        if (!$this->user_can_view_data()) {
+            return '<p>You do not have permission to view this data.</p>';
+        }
+
         $atts = shortcode_atts(array(
             'file_id' => ''
         ), $atts, 'excel_search');
 
         if (empty($atts['file_id'])) {
-            return '<p>Error: file_id is required.</p>';
+            return '<p>Error: file_id is required. Please specify a valid file ID, e.g., [excel_search file_id="1"].</p>';
         }
 
         global $wpdb;
@@ -252,12 +262,17 @@ class EDM_Public {
      * @return string HTML output
      */
     public function form_excel_data($atts) {
+        // Check if user has permission to view data
+        if (!$this->user_can_view_data()) {
+            return '<p>You do not have permission to view this data.</p>';
+        }
+
         $atts = shortcode_atts(array(
             'file_id' => ''
         ), $atts, 'excel_form');
 
         if (empty($atts['file_id'])) {
-            return '<p>Error: file_id is required.</p>';
+            return '<p>Error: file_id is required. Please specify a valid file ID, e.g., [excel_form file_id="1"].</p>';
         }
 
         global $wpdb;
@@ -429,5 +444,53 @@ class EDM_Public {
         }
 
         wp_send_json_success('Data successfully added');
+    }
+
+    /**
+     * Check if the current user can view data based on plugin settings
+     *
+     * @since 1.0.0
+     * @return bool Whether the user can view data
+     */
+    private function user_can_view_data() {
+        // Get plugin settings
+        $settings = get_option('edm_settings', array());
+        
+        // If no settings exist, allow access by default
+        if (empty($settings)) {
+            return true;
+        }
+        
+        // If user is not logged in, check if minimum role is subscriber (which means public access)
+        if (!is_user_logged_in()) {
+            return (isset($settings['min_role_view']) && $settings['min_role_view'] === 'subscriber');
+        }
+        
+        // Get current user
+        $current_user = wp_get_current_user();
+        
+        // Define role hierarchy
+        $role_hierarchy = array(
+            'subscriber' => 1,
+            'contributor' => 2,
+            'author' => 3,
+            'editor' => 4,
+            'administrator' => 5
+        );
+        
+        // Get user's highest role level
+        $user_level = 0;
+        foreach ($current_user->roles as $role) {
+            if (isset($role_hierarchy[$role]) && $role_hierarchy[$role] > $user_level) {
+                $user_level = $role_hierarchy[$role];
+            }
+        }
+        
+        // Get minimum required role level
+        $min_role = isset($settings['min_role_view']) ? $settings['min_role_view'] : 'subscriber';
+        $min_level = isset($role_hierarchy[$min_role]) ? $role_hierarchy[$min_role] : 1;
+        
+        // Check if user meets minimum role requirement
+        return $user_level >= $min_level;
     }
 }
